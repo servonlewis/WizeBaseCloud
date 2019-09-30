@@ -12,8 +12,10 @@ import CallToAction2 from './sections/CallToAction2';
 import Pricing1 from './sections/Pricing1';
 import Footer1 from './sections/Footer1';
 import Contact1 from './sections/Contact1';
+import Theme from '../Theme';
+import { ThemeProvider } from '@material-ui/styles';
 
-class Landing3 extends Component {
+export default class extends Component {
 	state = {};
 	componentWillUnmount() {
 		scrollTo('root');
@@ -21,22 +23,22 @@ class Landing3 extends Component {
 
 	render() {
 		return (
-			<div className="landing">
-				<TopBar3 />
-				<Intro3 />
-				<Service1 />
-				<Service4 />
-				<Service5 />
-				<Service6 />
-				<Service7 />
-				<Testimonial3 />
-				<CallToAction2 />
-				<Pricing1 />
-				<Contact1 />
-				<Footer1 />
-			</div>
+			<ThemeProvider theme={Theme}>
+				<div className="landing">
+					<TopBar3 />
+					<Intro3 />
+					<Service1 />
+					<Service4 />
+					<Service5 />
+					<Service6 />
+					<Service7 />
+					{/* 	<Testimonial3 /> */}
+					<CallToAction2 />
+					<Pricing1 />
+					<Contact1 />
+					<Footer1 />
+				</div>
+			</ThemeProvider>
 		);
 	}
 }
-
-export default Landing3;

@@ -5,9 +5,23 @@ import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
 import { NavLink } from 'react-router-dom';
 import ScrollTo from '../common/ScrollTo';
-import { useAuth0 } from '../../react-auth0-spa';
+import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+	avatar: {
+		width: 50,
+		height: 50
+	},
+	bigAvatar: {
+		margin: 10,
+		width: 60,
+		height: 60
+	}
+});
 
 function TopBar3() {
+	const classes = useStyles();
 	const [ isTop, setIsTop ] = useState(true);
 	const [ isClosed, setIsClosed ] = useState(true);
 
@@ -16,10 +30,28 @@ function TopBar3() {
 	};
 
 	const toggleIcon = isClosed ? 'menu' : 'close';
-	const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-	user && console.log(user);
-	console.log(isAuthenticated);
+	useEffect(() => {
+		window.addEventListener(
+			'scroll',
+			debounce(() => {
+				const supportPageOffset = window.pageXOffset !== undefined;
+				const isCSS1Compat = (document.compatMode || '') === 'CSS1Compat';
+				const scroll = {
+					x: supportPageOffset
+						? window.pageXOffset
+						: isCSS1Compat ? document.documentElement.scrollLeft : document.body.scrollLeft,
+					y: supportPageOffset
+						? window.pageYOffset
+						: isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop
+				};
+
+				setIsTop(scroll.y === 0 ? true : false);
+			}, 20)
+		);
+
+		return () => window.removeEventListener('scroll');
+	}, []);
 	return (
 		<section
 			className={classList({
@@ -67,11 +99,11 @@ function TopBar3() {
 					color="secondary"
 					aria-label="Buy"
 					className=""
-					onClick={() => loginWithRedirect({})}
 				>
 					<Icon className="mr-16">flight_takeoff</Icon>
 					Sign In
 				</Fab>
+
 				<IconButton
 					className="header__toggle"
 					onClick={() => {
